@@ -107,12 +107,23 @@ class _TodoCardState extends State<TodoCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // _renderTime(widget.todoItem.getStartTime()),
-        Text("Start time: ${widget.todoItem.getStartTime()}"),
+        Row(
+          children: [
+            const SizedBox(width: 48, child: Text("From")),
+            Text(widget.todoItem.getStartTime())
+          ],
+        ),
+
         const SizedBox(
           height: 4,
         ),
 
-        Text("End time: ${widget.todoItem.getEndTime()}"),
+        Row(
+          children: [
+            const SizedBox(width: 48, child: Text("To")),
+            Text(widget.todoItem.getEndTime())
+          ],
+        ),
 
         // _renderTime(widget.todoItem.getEndTime())
       ],
