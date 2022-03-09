@@ -14,14 +14,17 @@ class SearchBar extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerLeft,
             height: 40,
-            padding: const EdgeInsets.only(left: 8),
-            decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(borderRadius)),
             child: TextField(
+              textAlignVertical: TextAlignVertical.center,
               controller: searchController,
               decoration: const InputDecoration(
-                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(left: 8),
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(borderRadius))),
+                  filled: true,
+                  fillColor: Colors.white,
                   hintText: "Search...",
                   hintStyle: TextStyle(color: AppColors.gray)),
             ),
