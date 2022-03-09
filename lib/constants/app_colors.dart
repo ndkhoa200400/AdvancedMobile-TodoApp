@@ -15,4 +15,5 @@ class AppColors {
   static const Color background = Color(0xFFF6F5F4);
 
   static const Color gray = Color(0xFF979797);
+  static const Color inputFieldColor = Color(0xFFD8D8D8);
 }

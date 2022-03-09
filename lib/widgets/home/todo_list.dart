@@ -14,13 +14,16 @@ class TodoList extends StatelessWidget {
   Widget build(BuildContext context) {
     sortListByDone();
     return Expanded(
-        child: ListView.builder(
-      itemCount: todoList.length,
-      itemBuilder: (context, index) {
-        return Container(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: TodoCard(todoItem: todoList[index]));
-      },
+        child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: ListView.builder(
+        itemCount: todoList.length,
+        itemBuilder: (context, index) {
+          return Container(
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              child: TodoCard(todoItem: todoList[index]));
+        },
+      ),
     ));
   }
 }

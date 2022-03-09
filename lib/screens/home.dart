@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/common/bottom_sheet_add_new_todo.dart';
 import 'package:todo_app/common/custom_floating_action_button.dart';
+import 'package:todo_app/common/custom_input_field.dart';
 import 'package:todo_app/common/search_bar.dart';
 import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/constants/style.dart';
@@ -47,26 +49,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.background,
-        body: Padding(
-          padding: const EdgeInsets.all(16),
+        body: SafeArea(
           child: Column(
             children: [
               // title
               const HomeTitle(),
-              const SizedBox(
-                height: 16,
-              ),
+
               SearchBar(searchController: _searchController),
-              const SizedBox(
-                height: 16,
-              ),
+
               TodoList(todoList: todoList)
             ],
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: CustomFloatingActionButton(
-          onPressed: () {},
+          onPressed: showAddNewTodoBottomModal,
         ));
+  }
+
+  void showAddNewTodoBottomModal() {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return const BottomSheetAddNewTodo();
+      },
+    );
   }
 }

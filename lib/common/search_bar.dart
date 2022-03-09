@@ -8,34 +8,37 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            alignment: Alignment.centerLeft,
-            height: 40,
-            child: TextField(
-              textAlignVertical: TextAlignVertical.center,
-              controller: searchController,
-              decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 8),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(borderRadius))),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Search...",
-                  hintStyle: TextStyle(color: AppColors.gray)),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              alignment: Alignment.centerLeft,
+              height: 40,
+              child: TextField(
+                textAlignVertical: TextAlignVertical.center,
+                controller: searchController,
+                decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 8),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(borderRadius))),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "Search...",
+                    hintStyle: TextStyle(color: AppColors.gray)),
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        // search button
-        renderSearchButton()
-      ],
+          const SizedBox(
+            width: 8,
+          ),
+          // search button
+          renderSearchButton()
+        ],
+      ),
     );
   }
 
