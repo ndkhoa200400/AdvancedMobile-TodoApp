@@ -6,6 +6,8 @@ import 'package:todo_app/main.dart';
 import 'package:todo_app/models/todo_item.dart';
 import 'package:todo_app/widgets/home/custom_checkbox.dart';
 
+import '../providers/todo_list_provider.dart';
+
 class TodoCard extends StatefulWidget {
   final TodoItem todoItem;
   const TodoCard({required this.todoItem});
@@ -81,7 +83,8 @@ class _TodoCardState extends State<TodoCard> {
               CustomCheckBox(
                   isChecked: widget.todoItem.isDone,
                   onCheckboxChanged: (bool? value) {
-                    Provider.of<TodoListProvider>(context, listen: false).handleCheckbox(widget.todoItem.id, value!);
+                    Provider.of<TodoListProvider>(context, listen: false)
+                        .handleCheckbox(widget.todoItem.id, value!);
                   })
             ]),
       ),

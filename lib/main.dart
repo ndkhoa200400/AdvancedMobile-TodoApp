@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
 import 'package:todo_app/constants/app_colors.dart';
+import 'package:todo_app/providers/todo_list_provider.dart';
 import 'package:todo_app/screens/home.dart';
 
 import 'models/todo_item.dart';
@@ -30,63 +30,6 @@ List<TodoItem> todoList = [
       endTime: DateTime(2022),
       isDone: true),
 ];
-
-class TodoListProvider with ChangeNotifier {
-  final LocalStorage storage = LocalStorage('todo_app.json');
-
-  late List<TodoItem> _todoList = [];
-  List<TodoItem> get todoList {
-    _todoList.sort((a, b) => a.isDone ? 1 : 0);
-    return _todoList;
-  }
-
-  TodoListProvider() {
-    _loadStorage();
-  }
-
-  void handleCheckbox(String id, bool isDone) {
-    for (TodoItem item in _todoList) {
-      if (item.id == id) {
-        item.isDone = isDone;
-        notifyListeners();
-        _saveToStorage();
-        break;
-      }
-    }
-  }
-
-  void addNewTodo(TodoItem todoItem) {
-    _todoList.add(todoItem);
-    _saveToStorage();
-    notifyListeners();
-  }
-
-  _saveToStorage() {
-    storage.setItem('todos', toJSONEncodable());
-  }
-
-  _loadStorage() {
-    var items = storage.getItem('todos');
-    print(items);
-    if (items != null) {
-      _todoList = List<TodoItem>.from(
-        (items as List).map((item) => TodoItem(
-            id: item['item'],
-            title: item['title'],
-            description: item['description'],
-            startTime: DateTime.parse(item['startTime']),
-            endTime: DateTime.parse(item['endTime']),
-            isDone: item['isDone'])),
-      );
-    }
-  }
-
-  toJSONEncodable() {
-    return todoList.map((item) {
-      return item.toJSONEncodable();
-    }).toList();
-  }
-}
 
 void main() {
   runApp(

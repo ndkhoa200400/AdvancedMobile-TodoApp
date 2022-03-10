@@ -8,11 +8,11 @@ DateFormat formattedTime = DateFormat('HH:mm:ss');
 
 class TodoItem {
   late String id;
-  String title;
-  String description;
-  DateTime startTime;
-  DateTime endTime;
-  bool isDone = false;
+  late String title;
+  late String description;
+  late DateTime startTime;
+  late DateTime endTime;
+  late bool isDone = false;
 
   TodoItem({
     required this.id,
@@ -33,6 +33,15 @@ class TodoItem {
     id = uuid.v4();
   }
 
+  TodoItem.fromMap(Map<String, dynamic> item) {
+    id = item['id'];
+    title = item['title'];
+    description = item['description'];
+    startTime = DateTime.parse(item['starttime']);
+    endTime = DateTime.parse(item['endtime']);
+    isDone = item['isdone'] == 1 ? true : false;
+  }
+
   String getStartTime() {
     return formattedDate.format(startTime);
   }
@@ -45,16 +54,15 @@ class TodoItem {
     return "${formattedTime.format(startTime)} - ${formattedTime.format(endTime)}";
   }
 
-   toJSONEncodable() {
+  Map<String, dynamic> toMap() {
     Map<String, dynamic> m = {};
-
+    m['id'] = id;
     m['title'] = title;
-    m['isDone'] = isDone;
+    m['isDone'] = isDone ? 1 : 0;
     m['description'] = description;
     m['startTime'] = startTime.toIso8601String();
     m['endTime'] = endTime.toIso8601String();
 
     return m;
   }
-
 }

@@ -4,9 +4,11 @@ import 'package:todo_app/common/add_new_todo.dart';
 import 'package:todo_app/common/custom_floating_action_button.dart';
 import 'package:todo_app/common/search_bar.dart';
 import 'package:todo_app/constants/app_colors.dart';
-import 'package:todo_app/main.dart';
+import 'package:todo_app/data-access/todo-dao.dart';
 import 'package:todo_app/widgets/home/home_title.dart';
 import 'package:todo_app/widgets/home/todo_list.dart';
+
+import '../providers/todo_list_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +19,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Provider.of<TodoListProvider>(context, listen: false).loadStorage();
+  }
 
   @override
   Widget build(BuildContext context) {

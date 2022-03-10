@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/data-access/todo-dao.dart';
 import 'package:todo_app/main.dart';
 import 'package:todo_app/models/todo_item.dart';
 import 'package:todo_app/utils/show_toast.dart';
 import 'package:todo_app/widgets/home/todo_list.dart';
 
 import '../constants/app_colors.dart';
+import '../providers/todo_list_provider.dart';
 import 'custom_date_pick.dart';
 import 'custom_input_field.dart';
 
@@ -62,8 +64,14 @@ class _BottomSheetAddNewTodoState extends State<BottomSheetAddNewTodo> {
         description: _descriptionController.text,
         startTime: _startTime,
         endTime: _endTime);
+    try {
+      final TodoListDAO todoDAO = TodoListDAO();
 
-    Provider.of<TodoListProvider>(context, listen: false).addNewTodo(todoItem);
+      Provider.of<TodoListProvider>(context, listen: false)
+          .addNewTodo(todoItem);
+    } catch (error) {
+      showToast(context, "Insert got error $error. Please try again.");
+    }
   }
 
   @override
