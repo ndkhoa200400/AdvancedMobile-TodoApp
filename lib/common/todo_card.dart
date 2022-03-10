@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/constants/style.dart';
+import 'package:todo_app/main.dart';
 import 'package:todo_app/models/todo_item.dart';
 import 'package:todo_app/widgets/home/custom_checkbox.dart';
 
@@ -78,7 +80,9 @@ class _TodoCardState extends State<TodoCard> {
               ),
               CustomCheckBox(
                   isChecked: widget.todoItem.isDone,
-                  onCheckboxChanged: onCheckboxChange)
+                  onCheckboxChanged: (bool? value) {
+                    Provider.of<TodoListProvider>(context, listen: false).handleCheckbox(widget.todoItem.id, value!);
+                  })
             ]),
       ),
     );

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/main.dart';
+import 'package:todo_app/models/todo_item.dart';
 import 'package:todo_app/utils/show_toast.dart';
+import 'package:todo_app/widgets/home/todo_list.dart';
 
 import '../constants/app_colors.dart';
 import 'custom_date_pick.dart';
@@ -38,7 +42,6 @@ class _BottomSheetAddNewTodoState extends State<BottomSheetAddNewTodo> {
         endTimeErrorText = "Start time must be before end time.";
       });
       isError = true;
-      print("okl");
     }
 
     if (_titleController.text.isEmpty) {
@@ -54,87 +57,109 @@ class _BottomSheetAddNewTodoState extends State<BottomSheetAddNewTodo> {
 
     Navigator.pop(context);
     showToast(context, "Added new Todo");
+    TodoItem todoItem = TodoItem.create(
+        title: _titleController.text,
+        description: _descriptionController.text,
+        startTime: _startTime,
+        endTime: _endTime);
+
+    Provider.of<TodoListProvider>(context, listen: false).addNewTodo(todoItem);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: Container(
-          height: MediaQuery.of(context).size.height * 3 / 5,
-          padding: const EdgeInsets.all(16),
-          decoration: const BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16))),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Text(
-                  'Add new TODO',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 32),
-                CustomInputField(
-                  hintText: "Title",
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets,
+      child: Container(
+        height: MediaQuery.of(context).size.height * 3 / 5,
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                height: 56,
+                child: Stack(
+                    // mainAxisSize: MainAxisSize.max,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    alignment: Alignment.topCenter,
+                    children: [
+                      const Align(
+                        child: Text(
+                          'Add new TODO',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                              primary: AppColors.pink,
+                              textStyle: const TextStyle(
+                                  color: AppColors.pink, fontSize: 16)),
+                          child: const Text(
+                            "Done",
+                          ),
+                          onPressed: onDone,
+                        ),
+                      )
+                    ]),
+              ),
+              // const SizedBox(height: 32),
+              CustomInputField(
+                hintText: "Title",
+                fillColor: AppColors.inputFieldColor,
+                textEditingController: _titleController,
+                errorText: titleErrorText,
+              ),
+              const SizedBox(height: 16),
+              CustomDatePick(
+                hintText: "Start time",
+                currentTime: _startTime,
+                fillColor: AppColors.inputFieldColor,
+                errorText: startTimeErrorText,
+                setDate: (DateTime date) {
+                  setState(() {
+                    _startTime = date;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              CustomDatePick(
+                hintText: "End time",
+                currentTime: _endTime,
+                fillColor: AppColors.inputFieldColor,
+                errorText: endTimeErrorText,
+                setDate: (DateTime date) {
+                  setState(() {
+                    _endTime = date;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: CustomInputField(
+                  hintText: "Description",
                   fillColor: AppColors.inputFieldColor,
-                  textEditingController: _titleController,
-                  errorText: titleErrorText,
+                  textEditingController: _descriptionController,
+                  expands: true,
+                  maxLines: null,
+                  minLines: null,
                 ),
-                const SizedBox(height: 16),
-                CustomDatePick(
-                  hintText: "Start time",
-                  currentTime: _startTime,
-                  fillColor: AppColors.inputFieldColor,
-                  errorText: startTimeErrorText,
-                  setDate: (DateTime date) {
-                    setState(() {
-                      _startTime = date;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
-                CustomDatePick(
-                  hintText: "End time",
-                  currentTime: _endTime,
-                  fillColor: AppColors.inputFieldColor,
-                  errorText: endTimeErrorText,
-                  setDate: (DateTime date) {
-                    setState(() {
-                      _endTime = date;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: CustomInputField(
-                    hintText: "Description",
-                    fillColor: AppColors.inputFieldColor,
-                    textEditingController: _descriptionController,
-                    expands: true,
-                    maxLines: null,
-                    minLines: null,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
-      Positioned(
-          right: 16,
-          child: TextButton(
-            style: TextButton.styleFrom(
-                primary: AppColors.pink,
-                textStyle: TextStyle(color: AppColors.pink)),
-            child: const Text(
-              "Done",
-            ),
-            onPressed: onDone,
-          )),
-    ]);
+    );
   }
 }

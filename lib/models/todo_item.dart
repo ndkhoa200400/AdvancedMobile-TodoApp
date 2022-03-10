@@ -1,10 +1,13 @@
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
+
+var uuid = const Uuid();
 
 DateFormat formattedDate = DateFormat('yyyy-MM-dd – HH:mm');
 DateFormat formattedTime = DateFormat('HH:mm:ss');
 
 class TodoItem {
-  String id;
+  late String id;
   String title;
   String description;
   DateTime startTime;
@@ -19,6 +22,16 @@ class TodoItem {
     required this.endTime,
     required this.isDone,
   });
+
+  TodoItem.create({
+    required this.title,
+    required this.description,
+    required this.startTime,
+    required this.endTime,
+    this.isDone = false,
+  }) {
+    id = uuid.v4();
+  }
 
   String getStartTime() {
     return formattedDate.format(startTime);

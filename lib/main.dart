@@ -30,10 +30,61 @@ List<TodoItem> todoList = [
       isDone: true),
 ];
 
+class TodoListProvider with ChangeNotifier {
+  final List<TodoItem> _todoList = [
+    TodoItem(
+        id: "1",
+        title: "House Cleaning 1 ",
+        description: "Quét dọn nhà",
+        startTime: DateTime(2022),
+        endTime: DateTime(2022),
+        isDone: false),
+    TodoItem(
+        id: "2",
+        title: "House Cleaning 2",
+        description: "Quét dọn nhà",
+        startTime: DateTime(2022),
+        endTime: DateTime(2022),
+        isDone: false),
+    TodoItem(
+        id: "3",
+        title: "House Cleaning 3",
+        description: "Quét dọn nhà",
+        startTime: DateTime(2022),
+        endTime: DateTime(2022),
+        isDone: true),
+  ];
+
+  List<TodoItem> get todoList {
+    _todoList.sort((a, b) => a.isDone ? 1 : 0);
+    return _todoList;
+  }
+
+  void handleCheckbox(String id, bool isDone) {
+    for (TodoItem item in _todoList) {
+      if (item.id == id) {
+        item.isDone = isDone;
+        notifyListeners();
+        break;
+      }
+    }
+  }
+
+  void addNewTodo(TodoItem todoItem) {
+    _todoList.add(todoItem);
+    notifyListeners();
+  }
+}
+
 void main() {
   runApp(
     MultiProvider(
-      providers: [Provider(create: (context) => todoList)],
+      providers: [
+        Provider(create: (context) => todoList),
+        ChangeNotifierProvider<TodoListProvider>(
+          create: (_) => TodoListProvider(),
+        )
+      ],
       child: const MyApp(),
     ),
   );
