@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
 import 'package:todo_app/constants/app_colors.dart';
@@ -31,33 +32,16 @@ List<TodoItem> todoList = [
 ];
 
 class TodoListProvider with ChangeNotifier {
-  final List<TodoItem> _todoList = [
-    TodoItem(
-        id: "1",
-        title: "House Cleaning 1 ",
-        description: "Quét dọn nhà",
-        startTime: DateTime(2022),
-        endTime: DateTime(2022),
-        isDone: false),
-    TodoItem(
-        id: "2",
-        title: "House Cleaning 2",
-        description: "Quét dọn nhà",
-        startTime: DateTime(2022),
-        endTime: DateTime(2022),
-        isDone: false),
-    TodoItem(
-        id: "3",
-        title: "House Cleaning 3",
-        description: "Quét dọn nhà",
-        startTime: DateTime(2022),
-        endTime: DateTime(2022),
-        isDone: true),
-  ];
+  final LocalStorage storage = LocalStorage('todo_app.json');
 
+  late List<TodoItem> _todoList = [];
   List<TodoItem> get todoList {
     _todoList.sort((a, b) => a.isDone ? 1 : 0);
     return _todoList;
+  }
+
+  TodoListProvider() {
+    _loadStorage();
   }
 
   void handleCheckbox(String id, bool isDone) {
@@ -65,6 +49,7 @@ class TodoListProvider with ChangeNotifier {
       if (item.id == id) {
         item.isDone = isDone;
         notifyListeners();
+        _saveToStorage();
         break;
       }
     }
@@ -72,7 +57,34 @@ class TodoListProvider with ChangeNotifier {
 
   void addNewTodo(TodoItem todoItem) {
     _todoList.add(todoItem);
+    _saveToStorage();
     notifyListeners();
+  }
+
+  _saveToStorage() {
+    storage.setItem('todos', toJSONEncodable());
+  }
+
+  _loadStorage() {
+    var items = storage.getItem('todos');
+    print(items);
+    if (items != null) {
+      _todoList = List<TodoItem>.from(
+        (items as List).map((item) => TodoItem(
+            id: item['item'],
+            title: item['title'],
+            description: item['description'],
+            startTime: DateTime.parse(item['startTime']),
+            endTime: DateTime.parse(item['endTime']),
+            isDone: item['isDone'])),
+      );
+    }
+  }
+
+  toJSONEncodable() {
+    return todoList.map((item) {
+      return item.toJSONEncodable();
+    }).toList();
   }
 }
 

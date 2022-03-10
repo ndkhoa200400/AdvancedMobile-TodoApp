@@ -44,4 +44,17 @@ class TodoItem {
   String getRangeTime() {
     return "${formattedTime.format(startTime)} - ${formattedTime.format(endTime)}";
   }
+
+   toJSONEncodable() {
+    Map<String, dynamic> m = {};
+
+    m['title'] = title;
+    m['isDone'] = isDone;
+    m['description'] = description;
+    m['startTime'] = startTime.toIso8601String();
+    m['endTime'] = endTime.toIso8601String();
+
+    return m;
+  }
+
 }
