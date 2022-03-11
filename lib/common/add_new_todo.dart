@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/data-access/todo-dao.dart';
-import 'package:todo_app/main.dart';
-import 'package:todo_app/models/todo_item.dart';
+import 'package:todo_app/models/todo_item_dto.dart';
 import 'package:todo_app/utils/show_toast.dart';
-import 'package:todo_app/widgets/home/todo_list.dart';
 
 import '../constants/app_colors.dart';
 import '../providers/todo_list_provider.dart';
@@ -59,14 +57,12 @@ class _BottomSheetAddNewTodoState extends State<BottomSheetAddNewTodo> {
 
     Navigator.pop(context);
     showToast(context, "Added new Todo");
-    TodoItem todoItem = TodoItem.create(
+    TodoItemDTO todoItem = TodoItemDTO.create(
         title: _titleController.text,
         description: _descriptionController.text,
         startTime: _startTime,
         endTime: _endTime);
     try {
-      final TodoListDAO todoDAO = TodoListDAO();
-
       Provider.of<TodoListProvider>(context, listen: false)
           .addNewTodo(todoItem);
     } catch (error) {

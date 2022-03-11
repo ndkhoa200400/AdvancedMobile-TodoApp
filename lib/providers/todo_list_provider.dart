@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/data-access/todo-dao.dart';
 import 'package:todo_app/models/todo_list_dto.dart';
-import '../models/todo_item.dart';
+import '../models/todo_item_dto.dart';
 import '../utils/filter.dart';
 
 class TodoListProvider with ChangeNotifier {
   TodoListDTO todoListDTO = TodoListDTO();
   TodoListDAO todoDAO = TodoListDAO();
   late Filter _filter = FilterAll();
+  String _search = "";
+
+  void applySearch(String search) {
+    _search = search;
+    notifyListeners();
+  }
 
   void applyFilter(Filter filter) {
     _filter = filter;
@@ -15,14 +21,25 @@ class TodoListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<TodoItem> get todoList =>
-      todoListDTO.todoList.where((element) => _filter.filter(element)).toList();
+  bool _getSearchText(TodoItemDTO todoItem) {
+    if (_search.isEmpty) return true;
+
+    return todoItem.title.contains(_search);
+  }
+
+  List<TodoItemDTO> get todoList {
+    todoListDTO.sort();
+    return todoListDTO.todoList
+        .where((element) => _filter.filter(element) && _getSearchText(element))
+        .toList();
+  }
 
   TodoListProvider() {
     loadStorage();
   }
-  void setItems(List<TodoItem> todoList) {
+  void setItems(List<TodoItemDTO> todoList) {
     todoListDTO.setItems(todoList);
+    // todoListDTO.sort();
     notifyListeners();
   }
 
@@ -32,7 +49,7 @@ class TodoListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addNewTodo(TodoItem todoItem) {
+  void addNewTodo(TodoItemDTO todoItem) {
     todoDAO.insert(todoItem);
     todoListDTO.add(todoItem);
 

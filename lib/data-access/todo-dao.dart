@@ -1,6 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:todo_app/models/todo_item.dart';
+import 'package:todo_app/models/todo_item_dto.dart';
 
 class TodoListDAO {
   Database? database;
@@ -14,20 +14,21 @@ class TodoListDAO {
     });
   }
 
-  void insert(TodoItem item) async {
+  void insert(TodoItemDTO item) async {
     await open(databaseName);
     await database?.insert('Todo', item.toMap());
 
     await close();
   }
 
-  Future<List<TodoItem>> getTodoList() async {
+  Future<List<TodoItemDTO>> getTodoList() async {
     await open(databaseName);
     final List<Map<String, dynamic>>? maps = await database?.query('Todo');
 
     await close();
     if (maps != null) {
-      return List<TodoItem>.from(maps.map((item) => TodoItem.fromMap(item)));
+      return List<TodoItemDTO>.from(
+          maps.map((item) => TodoItemDTO.fromMap(item)));
     }
     return [];
   }
@@ -40,7 +41,7 @@ class TodoListDAO {
     await close();
   }
 
-  Future<int?> update(TodoItem todo) async {
+  Future<int?> update(TodoItemDTO todo) async {
     return await database
         ?.update('Todo', todo.toMap(), where: 'id = ?', whereArgs: [todo.id]);
   }

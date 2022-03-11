@@ -3,13 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/constants/style.dart';
 import 'package:todo_app/main.dart';
-import 'package:todo_app/models/todo_item.dart';
+import 'package:todo_app/models/todo_item_dto.dart';
 import 'package:todo_app/widgets/home/custom_checkbox.dart';
 
 import '../providers/todo_list_provider.dart';
 
 class TodoCard extends StatefulWidget {
-  final TodoItem todoItem;
+  final TodoItemDTO todoItem;
   const TodoCard({required this.todoItem});
 
   @override
@@ -36,6 +36,7 @@ class _TodoCardState extends State<TodoCard> {
               offset: Offset(0, 0), // changes position of shadow
             )
           ],
+          border: Border.all(color: AppColors.gray, width: 0.2),
           borderRadius: BorderRadius.circular(borderRadius),
           color: AppColors.white),
       child: IntrinsicHeight(
@@ -88,23 +89,6 @@ class _TodoCardState extends State<TodoCard> {
                   })
             ]),
       ),
-    );
-  }
-
-  Widget _renderTime(String time) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // const Icon(
-        //   Icons.access_time,
-        //   size: 16,
-        // ),
-        // const SizedBox(
-        //   width: 8,
-        // ),
-        Text(time)
-      ],
     );
   }
 

@@ -6,7 +6,7 @@ var uuid = const Uuid();
 DateFormat formattedDate = DateFormat('yyyy-MM-dd – HH:mm');
 DateFormat formattedTime = DateFormat('HH:mm:ss');
 
-class TodoItem {
+class TodoItemDTO {
   late String id;
   late String title;
   late String description;
@@ -14,7 +14,7 @@ class TodoItem {
   late DateTime endTime;
   late bool isDone = false;
 
-  TodoItem({
+  TodoItemDTO({
     required this.id,
     required this.title,
     required this.description,
@@ -23,7 +23,7 @@ class TodoItem {
     required this.isDone,
   });
 
-  TodoItem.create({
+  TodoItemDTO.create({
     required this.title,
     required this.description,
     required this.startTime,
@@ -33,7 +33,7 @@ class TodoItem {
     id = uuid.v4();
   }
 
-  TodoItem.fromMap(Map<String, dynamic> item) {
+  TodoItemDTO.fromMap(Map<String, dynamic> item) {
     id = item['id'];
     title = item['title'];
     description = item['description'];

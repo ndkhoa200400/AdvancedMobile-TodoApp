@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/common/add_new_todo.dart';
 import 'package:todo_app/common/custom_floating_action_button.dart';
+import 'package:todo_app/common/filter_widget.dart';
 import 'package:todo_app/common/search_bar.dart';
 import 'package:todo_app/constants/app_colors.dart';
-import 'package:todo_app/data-access/todo-dao.dart';
 import 'package:todo_app/widgets/home/home_title.dart';
 import 'package:todo_app/widgets/home/todo_list.dart';
 
@@ -18,8 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _searchController = TextEditingController();
-
   @override
   void initState() {
     // TODO: implement initState
@@ -38,7 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
               // title
               const HomeTitle(),
 
-              SearchBar(searchController: _searchController),
+              SearchBar(),
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: const [
+                FilterWidget(),
+              ]),
               Consumer<TodoListProvider>(
                 builder: ((context, value, child) =>
                     TodoList(todoList: value.todoList)),

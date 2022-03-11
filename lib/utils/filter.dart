@@ -1,19 +1,19 @@
-import '../models/todo_item.dart';
+import '../models/todo_item_dto.dart';
 
 abstract class Filter {
-  bool filter(TodoItem todoItem);
+  bool filter(TodoItemDTO todoItem);
 }
 
 class FilterAll extends Filter {
   @override
-  bool filter(TodoItem todoItem) {
+  bool filter(TodoItemDTO todoItem) {
     return true;
   }
 }
 
 class FilterUpcoming extends Filter {
   @override
-  bool filter(TodoItem todoItem) {
+  bool filter(TodoItemDTO todoItem) {
     if (!todoItem.isDone && todoItem.endTime.isAfter(DateTime.now())) {
       return true;
     } else {
@@ -24,7 +24,7 @@ class FilterUpcoming extends Filter {
 
 class FilterDone extends Filter {
   @override
-  bool filter(TodoItem todoItem) {
+  bool filter(TodoItemDTO todoItem) {
     return todoItem.isDone;
   }
 }
@@ -39,7 +39,7 @@ class FilterToday extends Filter {
   }
 
   @override
-  bool filter(TodoItem todoItem) {
+  bool filter(TodoItemDTO todoItem) {
     if (!todoItem.isDone && isToday(todoItem.endTime)) {
       return true;
     } else {

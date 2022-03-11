@@ -5,24 +5,24 @@ import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
 import 'package:todo_app/screens/home.dart';
 
-import 'models/todo_item.dart';
+import 'models/todo_item_dto.dart';
 
-List<TodoItem> todoList = [
-  TodoItem(
+List<TodoItemDTO> todoList = [
+  TodoItemDTO(
       id: "1",
       title: "House Cleaning",
       description: "Quét dọn nhà",
       startTime: DateTime(2022),
       endTime: DateTime(2022),
       isDone: false),
-  TodoItem(
+  TodoItemDTO(
       id: "2",
       title: "House Cleaning",
       description: "Quét dọn nhà",
       startTime: DateTime(2022),
       endTime: DateTime(2022),
       isDone: false),
-  TodoItem(
+  TodoItemDTO(
       id: "3",
       title: "House Cleaning",
       description: "Quét dọn nhà",

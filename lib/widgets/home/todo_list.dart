@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/common/todo_card.dart';
-import 'package:todo_app/models/todo_item.dart';
+import 'package:todo_app/models/todo_item_dto.dart';
 
 class TodoList extends StatelessWidget {
-  final List<TodoItem> todoList;
+  final List<TodoItemDTO> todoList;
   const TodoList({Key? key, required this.todoList}) : super(key: key);
-
-  void sortListByDone() {
-    todoList.sort((a, b) => a.isDone ? 1 : 0);
-  }
 
   @override
   Widget build(BuildContext context) {
-    sortListByDone();
     return Expanded(
         child: Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ListView.builder(
         itemCount: todoList.length,
         itemBuilder: (context, index) {

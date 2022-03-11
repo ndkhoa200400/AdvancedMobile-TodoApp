@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/constants/style.dart';
+import 'package:todo_app/providers/todo_list_provider.dart';
 
 class SearchBar extends StatelessWidget {
-  final TextEditingController searchController;
-  const SearchBar({required this.searchController});
+  TextEditingController searchController = TextEditingController();
+
+  void onSearch(BuildContext context) {
+    print(searchController.text);
+    Provider.of<TodoListProvider>(context, listen: false)
+        .applySearch(searchController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +24,8 @@ class SearchBar extends StatelessWidget {
               alignment: Alignment.centerLeft,
               height: 40,
               child: TextField(
+                textInputAction: TextInputAction.search,
+                onSubmitted: (_) => {onSearch(context)},
                 textAlignVertical: TextAlignVertical.center,
                 controller: searchController,
                 decoration: const InputDecoration(
@@ -36,15 +45,17 @@ class SearchBar extends StatelessWidget {
             width: 8,
           ),
           // search button
-          renderSearchButton()
+          renderSearchButton(context)
         ],
       ),
     );
   }
 
-  Widget renderSearchButton() {
+  Widget renderSearchButton(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        onSearch(context);
+      },
       style: TextButton.styleFrom(
         backgroundColor: AppColors.pink,
         minimumSize: Size.zero,

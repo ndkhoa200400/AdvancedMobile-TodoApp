@@ -1,15 +1,15 @@
-import 'package:todo_app/models/todo_item.dart';
+import 'package:todo_app/models/todo_item_dto.dart';
 
 class TodoListDTO {
-  List<TodoItem> _list = [];
+  List<TodoItemDTO> _list = [];
 
-  List<TodoItem> get todoList => _list;
+  List<TodoItemDTO> get todoList => _list;
 
   void clear() {
     _list.clear();
   }
 
-  void setItems(List<TodoItem> items) {
+  void setItems(List<TodoItemDTO> items) {
     _list.clear();
     _list.addAll(items);
     sort();
@@ -19,16 +19,17 @@ class TodoListDTO {
     _list.sort((a, b) => a.isDone ? 1 : 0);
   }
 
-  add(TodoItem item) {
+  add(TodoItemDTO item) {
     _list.add(item);
+    sort();
   }
 
-  remove(TodoItem item) {
+  remove(TodoItemDTO item) {
     _list.remove(item);
   }
 
   updateDone(String id, bool isDone) {
-    for (TodoItem item in todoList) {
+    for (TodoItemDTO item in todoList) {
       if (item.id == id) {
         item.isDone = isDone;
 
