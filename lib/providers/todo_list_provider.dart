@@ -56,6 +56,13 @@ class TodoListProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeTodo(TodoItemDTO todoItemDTO) {
+    todoListDTO.remove(todoItemDTO);
+    todoDAO.delete(todoItemDTO.id);
+
+    notifyListeners();
+  }
+
   loadStorage() {
     todoDAO.getTodoList().then((value) => {setItems(value)});
   }

@@ -4,6 +4,8 @@ import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/constants/style.dart';
 import 'package:todo_app/models/todo_item_dto.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
+import 'package:todo_app/screens/home.dart';
+import 'package:todo_app/utils/show_toast.dart';
 import 'package:todo_app/widgets/home/todo_list.dart';
 
 class DetailedTodoScreen extends StatelessWidget {
@@ -20,6 +22,17 @@ class DetailedTodoScreen extends StatelessWidget {
           automaticallyImplyLeading: true,
           backgroundColor: AppColors.white,
           foregroundColor: Colors.black,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Provider.of<TodoListProvider>(context, listen: false)
+                      .removeTodo(todoItemDTO);
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                  showToast(context, "Remove todo successfully");
+                },
+                icon: Icon(Icons.delete))
+          ],
         ),
         body: Consumer<TodoListProvider>(
           builder: ((context, value, child) => Column(
@@ -124,8 +137,6 @@ class DetailedTodoScreen extends StatelessWidget {
             Text(todoItemDTO.getEndTime())
           ],
         ),
-
-        // _renderTime(widget.todoItem.getEndTime())
       ],
     );
   }
