@@ -1,7 +1,15 @@
 import 'package:todo_app/models/todo_item_dto.dart';
 
 class TodoListDTO {
-  List<TodoItemDTO> _list = [];
+  List<TodoItemDTO> _list = [
+    TodoItemDTO(
+        id: "3",
+        title: "House Cleaning",
+        description: "Quét dọn nhà",
+        startTime: DateTime(2022),
+        endTime: DateTime(2022),
+        isDone: true)
+  ];
 
   List<TodoItemDTO> get todoList => _list;
 

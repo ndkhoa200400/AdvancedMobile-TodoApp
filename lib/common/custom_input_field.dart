@@ -37,6 +37,7 @@ class CustomInputField extends StatelessWidget {
         textAlignVertical: TextAlignVertical.top,
         controller: textEditingController,
         keyboardType: textInputType,
+        textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
             errorText: errorText.isEmpty ? null : errorText,
             contentPadding: const EdgeInsets.only(left: 8, top: 8, bottom: 8),

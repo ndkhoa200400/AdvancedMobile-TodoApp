@@ -12,6 +12,7 @@ class TodoList extends StatelessWidget {
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         itemCount: todoList.length,
         itemBuilder: (context, index) {
           return Container(
