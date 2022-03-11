@@ -20,7 +20,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Provider.of<TodoListProvider>(context, listen: false).loadStorage();
@@ -40,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.end, children: const [
                 FilterWidget(),
               ]),
+              // TextButton(onPressed: showNotification, child: Text("Click me")),
               Consumer<TodoListProvider>(
                 builder: ((context, value, child) =>
                     TodoList(todoList: value.todoList)),

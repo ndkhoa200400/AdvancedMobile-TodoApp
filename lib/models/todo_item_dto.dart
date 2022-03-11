@@ -37,8 +37,8 @@ class TodoItemDTO {
     id = item['id'];
     title = item['title'];
     description = item['description'];
-    startTime = DateTime.parse(item['starttime']);
-    endTime = DateTime.parse(item['endtime']);
+    startTime = DateTime.parse(item['starttime'] ?? item['startTime']);
+    endTime = DateTime.parse(item['endtime'] ?? item['endTime']);
     isDone = item['isdone'] == 1 ? true : false;
   }
 
@@ -54,7 +54,7 @@ class TodoItemDTO {
     return "${formattedTime.format(startTime)} - ${formattedTime.format(endTime)}";
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     Map<String, dynamic> m = {};
     m['id'] = id;
     m['title'] = title;

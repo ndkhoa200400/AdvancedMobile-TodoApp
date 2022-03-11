@@ -16,7 +16,7 @@ class TodoListDAO {
 
   void insert(TodoItemDTO item) async {
     await open(databaseName);
-    await database?.insert('Todo', item.toMap());
+    await database?.insert('Todo', item.toJson());
 
     await close();
   }
@@ -43,7 +43,7 @@ class TodoListDAO {
 
   Future<int?> update(TodoItemDTO todo) async {
     return await database
-        ?.update('Todo', todo.toMap(), where: 'id = ?', whereArgs: [todo.id]);
+        ?.update('Todo', todo.toJson(), where: 'id = ?', whereArgs: [todo.id]);
   }
 
   Future<int?> updateDoneById(String id, bool isDone) async {

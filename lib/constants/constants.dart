@@ -4,3 +4,7 @@ class EnumFilter {
   static const String today = "Today";
   static const String done = "Done";
 }
+
+String applicationName = "Todo App";
+
+Duration notificationTime = const Duration(minutes: 10);

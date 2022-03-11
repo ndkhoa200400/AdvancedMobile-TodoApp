@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/data-access/todo-dao.dart';
 import 'package:todo_app/models/todo_item_dto.dart';
+import 'package:todo_app/screens/detailed_todo.dart';
 import 'package:todo_app/utils/show_toast.dart';
 
 import '../constants/app_colors.dart';
 import '../providers/todo_list_provider.dart';
+import '../service/notification_service_impl.dart';
 import 'custom_date_pick.dart';
 import 'custom_input_field.dart';
 
@@ -68,6 +70,11 @@ class _BottomSheetAddNewTodoState extends State<BottomSheetAddNewTodo> {
     } catch (error) {
       showToast(context, "Insert got error $error. Please try again.");
     }
+
+    NotificationServiceImpl _notificationService = NotificationServiceImpl();
+
+    _notificationService.scheduleNotificationForDeadline(
+        todoItem, "Deadline upcoming");
   }
 
   @override

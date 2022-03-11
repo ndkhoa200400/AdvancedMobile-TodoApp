@@ -3,7 +3,10 @@ import 'package:provider/provider.dart';
 
 import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
+import 'package:todo_app/screens/detailed_todo.dart';
 import 'package:todo_app/screens/home.dart';
+import 'package:todo_app/service/navigation_service.dart';
+import 'package:todo_app/service/service_locator.dart';
 
 import 'models/todo_item_dto.dart';
 
@@ -32,40 +35,41 @@ List<TodoItemDTO> todoList = [
 ];
 
 void main() {
+  setupServiceLocator();
   runApp(
     MultiProvider(
       providers: [
-        Provider(create: (context) => todoList),
         ChangeNotifierProvider<TodoListProvider>(
           create: (_) => TodoListProvider(),
-        )
+        ),
       ],
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      navigatorKey: getIt<NavigationService>().navigatorKey,
+      onGenerateRoute: (routeSettings) {
+        routeSettings.arguments;
+        switch (routeSettings.name) {
+          case 'detailed-todo':
+        }
+        return MaterialPageRoute(
+            builder: (context) => DetailedTodoScreen(
+                  todoItemDTO: routeSettings.arguments as TodoItemDTO,
+                ));
+      },
+      title: 'Todo App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          primarySwatch: Colors.blue,
-          backgroundColor: AppColors.background),
+          primarySwatch: Colors.blue, backgroundColor: AppColors.background),
       home: const HomeScreen(),
     );
   }
