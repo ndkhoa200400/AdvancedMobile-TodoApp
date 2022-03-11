@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/data-access/todo-dao.dart';
 import 'package:todo_app/models/todo_list_dto.dart';
-
 import '../models/todo_item.dart';
+import '../utils/filter.dart';
 
 class TodoListProvider with ChangeNotifier {
   TodoListDTO todoListDTO = TodoListDTO();
   TodoListDAO todoDAO = TodoListDAO();
+  late Filter _filter = FilterAll();
 
-  List<TodoItem> get todoList => todoListDTO.todoList;
+  void applyFilter(Filter filter) {
+    _filter = filter;
+
+    notifyListeners();
+  }
+
+  List<TodoItem> get todoList =>
+      todoListDTO.todoList.where((element) => _filter.filter(element)).toList();
 
   TodoListProvider() {
     loadStorage();

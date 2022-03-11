@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/providers/todo_list_provider.dart';
+import 'package:todo_app/utils/filter.dart';
 
 import '../../constants/app_colors.dart';
-
-class EnumFilter {
-  static const String all = "All";
-  static const String incoming = "Incoming";
-  static const String done = "Done";
-}
+import '../../constants/constants.dart';
 
 class HomeTitle extends StatelessWidget {
   const HomeTitle({Key? key}) : super(key: key);
@@ -44,13 +42,20 @@ class HomeTitle extends StatelessWidget {
                   onSelected: (String result) {
                     switch (result) {
                       case EnumFilter.all:
-                        print('filter 1 clicked');
+                        Provider.of<TodoListProvider>(context, listen: false)
+                            .applyFilter(FilterAll());
                         break;
-                      case EnumFilter.incoming:
-                        print('filter 2 clicked');
+                      case EnumFilter.today:
+                        Provider.of<TodoListProvider>(context, listen: false)
+                            .applyFilter(FilterToday());
+                        break;
+                      case EnumFilter.upcoming:
+                        Provider.of<TodoListProvider>(context, listen: false)
+                            .applyFilter(FilterUpcoming());
                         break;
                       case EnumFilter.done:
-                        print('Clear filters');
+                        Provider.of<TodoListProvider>(context, listen: false)
+                            .applyFilter(FilterDone());
                         break;
                       default:
                     }
@@ -62,8 +67,12 @@ class HomeTitle extends StatelessWidget {
                       child: Text(EnumFilter.all),
                     ),
                     const PopupMenuItem<String>(
-                      value: EnumFilter.incoming,
-                      child: Text(EnumFilter.incoming),
+                      value: EnumFilter.today,
+                      child: Text(EnumFilter.today),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: EnumFilter.upcoming,
+                      child: Text(EnumFilter.upcoming),
                     ),
                     const PopupMenuItem<String>(
                       value: EnumFilter.done,
