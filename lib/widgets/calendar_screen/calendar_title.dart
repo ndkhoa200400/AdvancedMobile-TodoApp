@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 import '../../constants/app_colors.dart';
 
-class HomeTitle extends StatelessWidget {
-  const HomeTitle({Key? key}) : super(key: key);
+class CalendarTitle extends StatelessWidget {
+  const CalendarTitle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +14,11 @@ class HomeTitle extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           renderTitle(),
-          // calendar
+          // calendarr
           IconButton(
-            onPressed: () => {Navigator.pushNamed(context, "/calendar-screen")},
+            onPressed: () => {Navigator.pushNamed(context, "/home")},
             icon: const Icon(
-              Icons.calendar_month,
+              Icons.home,
               color: AppColors.red,
               size: 24,
             ),

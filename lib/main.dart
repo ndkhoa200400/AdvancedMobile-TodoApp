@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
+import 'package:todo_app/screens/calendar_sceen.dart';
 import 'package:todo_app/screens/detailed_todo.dart';
 import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/service/navigation_service.dart';
@@ -55,22 +56,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: getIt<NavigationService>().navigatorKey,
-      onGenerateRoute: (routeSettings) {
-        routeSettings.arguments;
-        switch (routeSettings.name) {
-          case 'detailed-todo':
-        }
-        return MaterialPageRoute(
-            builder: (context) => DetailedTodoScreen(
-                  todoItemDTO: routeSettings.arguments as TodoItemDTO,
-                ));
-      },
-      title: 'Todo App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primarySwatch: Colors.blue, backgroundColor: AppColors.background),
-      home: const HomeScreen(),
-    );
+        navigatorKey: getIt<NavigationService>().navigatorKey,
+        onGenerateRoute: (routeSettings) {
+          routeSettings.arguments;
+          switch (routeSettings.name) {
+            case 'detailed-todo':
+          }
+          return MaterialPageRoute(
+              builder: (context) => DetailedTodoScreen(
+                    todoItemDTO: routeSettings.arguments as TodoItemDTO,
+                  ));
+        },
+        title: 'Todo App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            primarySwatch: Colors.blue, backgroundColor: AppColors.background),
+        home: const HomeScreen(),
+        routes: {
+          "/home": (context) => const HomeScreen(),
+          "/calendar-screen": (context) => const CalendarScreen()
+        });
   }
 }

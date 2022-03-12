@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/constants/app_colors.dart';
-import 'package:todo_app/constants/style.dart';
 import 'package:todo_app/models/todo_item_dto.dart';
 import 'package:todo_app/providers/todo_list_provider.dart';
 import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/utils/show_toast.dart';
-import 'package:todo_app/widgets/home/todo_list.dart';
 
-class DetailedTodoScreen extends StatelessWidget {
+class DetailedTodoScreen extends StatefulWidget {
   final TodoItemDTO todoItemDTO;
   const DetailedTodoScreen({Key? key, required this.todoItemDTO})
       : super(key: key);
 
+  @override
+  State<DetailedTodoScreen> createState() => _DetailedTodoScreenState();
+}
+
+class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +29,7 @@ class DetailedTodoScreen extends StatelessWidget {
             IconButton(
                 onPressed: () {
                   Provider.of<TodoListProvider>(context, listen: false)
-                      .removeTodo(todoItemDTO);
+                      .removeTodo(widget.todoItemDTO);
                   Navigator.pushReplacement(
                       context, MaterialPageRoute(builder: (_) => HomeScreen()));
                   showToast(context, "Remove todo successfully");
@@ -50,7 +53,7 @@ class DetailedTodoScreen extends StatelessWidget {
                       children: [
                         // Title
                         Text(
-                          todoItemDTO.title,
+                          widget.todoItemDTO.title,
                           style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
@@ -64,7 +67,7 @@ class DetailedTodoScreen extends StatelessWidget {
                               height: 16,
                               width: 16,
                               decoration: BoxDecoration(
-                                  color: todoItemDTO.isDone
+                                  color: widget.todoItemDTO.isDone
                                       ? AppColors.lightgreen
                                       : AppColors.pink,
                                   shape: BoxShape.circle),
@@ -72,7 +75,9 @@ class DetailedTodoScreen extends StatelessWidget {
                             const SizedBox(
                               width: 8,
                             ),
-                            Text(todoItemDTO.isDone ? "Done" : "In progress")
+                            Text(widget.todoItemDTO.isDone
+                                ? "Done"
+                                : "In progress")
                           ],
                         ),
                         // Time
@@ -83,7 +88,7 @@ class DetailedTodoScreen extends StatelessWidget {
                         const SizedBox(
                           height: 16,
                         ),
-                        Text(todoItemDTO.description)
+                        Text(widget.todoItemDTO.description)
                       ],
                     ),
                   ),
@@ -103,11 +108,11 @@ class DetailedTodoScreen extends StatelessWidget {
           elevation: 2,
         ),
         onPressed: () {
-          Provider.of<TodoListProvider>(ctx, listen: false)
-              .handleCheckbox(todoItemDTO.id, !todoItemDTO.isDone);
+          Provider.of<TodoListProvider>(ctx, listen: false).handleCheckbox(
+              widget.todoItemDTO.id, !widget.todoItemDTO.isDone);
         },
         child: Center(
-          child: Text(todoItemDTO.isDone ? "Undo it" : 'Done it',
+          child: Text(widget.todoItemDTO.isDone ? "Undo it" : 'Done it',
               style: const TextStyle(color: AppColors.white)),
         ),
       ),
@@ -123,7 +128,7 @@ class DetailedTodoScreen extends StatelessWidget {
         Row(
           children: [
             const SizedBox(width: 48, child: Text("From")),
-            Text(todoItemDTO.getStartTime())
+            Text(widget.todoItemDTO.getStartTime())
           ],
         ),
 
@@ -134,7 +139,7 @@ class DetailedTodoScreen extends StatelessWidget {
         Row(
           children: [
             const SizedBox(width: 48, child: Text("To")),
-            Text(todoItemDTO.getEndTime())
+            Text(widget.todoItemDTO.getEndTime())
           ],
         ),
       ],

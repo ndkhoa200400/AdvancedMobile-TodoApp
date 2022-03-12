@@ -8,6 +8,7 @@ import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/widgets/home/home_title.dart';
 import 'package:todo_app/widgets/home/todo_list.dart';
 
+import '../common/filter_section.dart';
 import '../providers/todo_list_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -36,10 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
               const HomeTitle(),
 
               SearchBar(),
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: const [
-                FilterWidget(),
-              ]),
-              // TextButton(onPressed: showNotification, child: Text("Click me")),
+              const FilterSection(),
+
               Consumer<TodoListProvider>(
                 builder: ((context, value, child) =>
                     TodoList(todoList: value.todoList)),

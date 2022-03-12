@@ -41,6 +41,8 @@ dependencies:
   path:
   flutter_local_notifications: ^9.4.0
   get_it: ^7.2.0
+  table_calendar:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
