@@ -39,12 +39,16 @@ class TodoListProvider with ChangeNotifier {
   }
   void setItems(List<TodoItemDTO> todoList) {
     todoListDTO.setItems(todoList);
-    // todoListDTO.sort();
     notifyListeners();
+  }
+
+  TodoItemDTO findById(String id) {
+    return todoListDTO.findById(id);
   }
 
   void handleCheckbox(String id, bool isDone) {
     todoListDTO.updateDone(id, isDone);
+
     todoDAO.updateDoneById(id, isDone);
     notifyListeners();
   }

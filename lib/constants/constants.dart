@@ -7,4 +7,4 @@ class EnumFilter {
 
 String applicationName = "Todo App";
 
-Duration notificationTime = const Duration(minutes: 10);
+Duration notificationTime = const Duration(seconds: 10);

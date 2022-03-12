@@ -52,7 +52,7 @@ class NotificationServiceImpl extends NotificationService {
     cancelNotificationForTodoItem(todoItemDTO);
     // getIt<NavigationService>()
     //     .push(DetailedTodoScreen(todoItemDTO: todoItemDTO));
-    getIt<NavigationService>().navigateTo("/detailed-todo", todoItemDTO);
+    getIt<NavigationService>().navigateTo("/detailed-todo", todoItemDTO.id);
   }
 
   void cancelNotificationForTodoItem(TodoItemDTO todoItemDTO) async {
@@ -68,6 +68,8 @@ class NotificationServiceImpl extends NotificationService {
         notificationMessage,
         NotificationDetails(
             android: AndroidNotificationDetails(channelId, applicationName,
+                importance: Importance.max,
+                priority: Priority.high,
                 channelDescription: 'To remind you about upcoming deadline.')),
         payload: jsonEncode(todoItemDTO));
   }
@@ -101,6 +103,8 @@ class NotificationServiceImpl extends NotificationService {
             .add(notificationTime),
         NotificationDetails(
             android: AndroidNotificationDetails(channelId, applicationName,
+                importance: Importance.max,
+                priority: Priority.high,
                 channelDescription: 'To remind you about upcoming deadline')),
         payload: jsonEncode(todoItemDTO),
         androidAllowWhileIdle: true,

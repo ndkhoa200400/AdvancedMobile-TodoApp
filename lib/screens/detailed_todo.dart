@@ -7,15 +7,32 @@ import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/utils/show_toast.dart';
 
 class DetailedTodoScreen extends StatefulWidget {
-  final TodoItemDTO todoItemDTO;
-  const DetailedTodoScreen({Key? key, required this.todoItemDTO})
-      : super(key: key);
+  late TodoItemDTO todoItemDTO;
+  late String? id;
+  DetailedTodoScreen({Key? key, required this.todoItemDTO}) : super(key: key);
 
+  DetailedTodoScreen.id({required this.id});
   @override
   State<DetailedTodoScreen> createState() => _DetailedTodoScreenState();
 }
 
 class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.id != null) {
+      try {
+        widget.todoItemDTO =
+            context.read<TodoListProvider>().findById(widget.id!);
+      } catch (e) {
+        showToast(context, "Todo Item not found");
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,13 +45,14 @@ class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Provider.of<TodoListProvider>(context, listen: false)
+                  context
+                      .watch<TodoListProvider>()
                       .removeTodo(widget.todoItemDTO);
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (_) => const HomeScreen()));
                   showToast(context, "Remove todo successfully");
                 },
-                icon: Icon(Icons.delete))
+                icon: const Icon(Icons.delete))
           ],
         ),
         body: Consumer<TodoListProvider>(

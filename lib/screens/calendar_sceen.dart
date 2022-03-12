@@ -4,7 +4,6 @@ import 'package:table_calendar/table_calendar.dart';
 
 import 'package:todo_app/common/add_new_todo.dart';
 import 'package:todo_app/common/custom_floating_action_button.dart';
-import 'package:todo_app/common/todo_card.dart';
 import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/models/todo_item_dto.dart';
 import 'package:todo_app/widgets/calendar_screen/todo_calendar.dart';
@@ -40,7 +39,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   List<TodoItemDTO> _getEventsForDay(DateTime day) {
     // Implementation example
     return context
-        .read<TodoListProvider>()
+        .watch<TodoListProvider>()
         .todoList
         .where((element) => isSameDay(element.endTime, day))
         .toList();

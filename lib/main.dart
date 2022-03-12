@@ -63,8 +63,8 @@ class MyApp extends StatelessWidget {
             case 'detailed-todo':
           }
           return MaterialPageRoute(
-              builder: (context) => DetailedTodoScreen(
-                    todoItemDTO: routeSettings.arguments as TodoItemDTO,
+              builder: (context) => DetailedTodoScreen.id(
+                    id: routeSettings.arguments as String,
                   ));
         },
         title: 'Todo App',

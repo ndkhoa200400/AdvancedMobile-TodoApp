@@ -1,15 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:todo_app/models/todo_item_dto.dart';
 
 class TodoListDTO {
-  List<TodoItemDTO> _list = [
-    TodoItemDTO(
-        id: "3",
-        title: "House Cleaning",
-        description: "Quét dọn nhà",
-        startTime: DateTime(2022),
-        endTime: DateTime(2022),
-        isDone: true)
-  ];
+  final List<TodoItemDTO> _list = [];
 
   List<TodoItemDTO> get todoList => _list;
 
@@ -45,5 +38,15 @@ class TodoListDTO {
         break;
       }
     }
+  }
+
+  TodoItemDTO findById(String id) {
+    return _list.firstWhere((element) => element.id == id);
+  }
+
+  void print() {
+    _list.forEach((element) {
+      debugPrint(element.toJson().toString());
+    });
   }
 }

@@ -58,7 +58,6 @@ class _BottomSheetAddNewTodoState extends State<BottomSheetAddNewTodo> {
     }
 
     Navigator.pop(context);
-    showToast(context, "Added new Todo");
     TodoItemDTO todoItem = TodoItemDTO.create(
         title: _titleController.text,
         description: _descriptionController.text,
