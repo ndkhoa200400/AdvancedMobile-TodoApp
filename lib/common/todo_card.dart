@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/constants/app_colors.dart';
 import 'package:todo_app/constants/style.dart';
-import 'package:todo_app/main.dart';
 import 'package:todo_app/models/todo_item_dto.dart';
 import 'package:todo_app/screens/detailed_todo.dart';
 import 'package:todo_app/widgets/home/custom_checkbox.dart';
@@ -32,7 +31,7 @@ class _TodoCardState extends State<TodoCard> {
             context,
             MaterialPageRoute(
                 builder: ((context) =>
-                    DetailedTodoScreen(todoItemDTO: widget.todoItem))));
+                    DetailedTodoScreen.id(id: widget.todoItem.id))));
       },
       child: Container(
         // height: 85,
@@ -125,8 +124,6 @@ class _TodoCardState extends State<TodoCard> {
             Text(widget.todoItem.getEndTime())
           ],
         ),
-
-        // _renderTime(widget.todoItem.getEndTime())
       ],
     );
   }

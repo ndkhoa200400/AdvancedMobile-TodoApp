@@ -8,7 +8,6 @@ class SearchBar extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
 
   void onSearch(BuildContext context) {
-    print(searchController.text);
     Provider.of<TodoListProvider>(context, listen: false)
         .applySearch(searchController.text);
   }

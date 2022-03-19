@@ -7,24 +7,23 @@ import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/utils/show_toast.dart';
 
 class DetailedTodoScreen extends StatefulWidget {
-  late TodoItemDTO todoItemDTO;
-  late String? id;
-  DetailedTodoScreen({Key? key, required this.todoItemDTO}) : super(key: key);
-
+  String id;
   DetailedTodoScreen.id({required this.id});
   @override
   State<DetailedTodoScreen> createState() => _DetailedTodoScreenState();
 }
 
 class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
+  late TodoItemDTO todoItemDTO;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     if (widget.id != null) {
       try {
-        widget.todoItemDTO =
-            context.read<TodoListProvider>().findById(widget.id!);
+        todoItemDTO = context.read<TodoListProvider>().findById(widget.id);
       } catch (e) {
         showToast(context, "Todo Item not found");
         Navigator.pushReplacement(
@@ -45,9 +44,7 @@ class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
           actions: [
             IconButton(
                 onPressed: () {
-                  context
-                      .watch<TodoListProvider>()
-                      .removeTodo(widget.todoItemDTO);
+                  context.read<TodoListProvider>().removeTodo(todoItemDTO);
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) => const HomeScreen()));
                   showToast(context, "Remove todo successfully");
@@ -71,7 +68,7 @@ class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
                       children: [
                         // Title
                         Text(
-                          widget.todoItemDTO.title,
+                          todoItemDTO.title,
                           style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
@@ -85,7 +82,7 @@ class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
                               height: 16,
                               width: 16,
                               decoration: BoxDecoration(
-                                  color: widget.todoItemDTO.isDone
+                                  color: todoItemDTO.isDone
                                       ? AppColors.lightgreen
                                       : AppColors.pink,
                                   shape: BoxShape.circle),
@@ -93,9 +90,7 @@ class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
                             const SizedBox(
                               width: 8,
                             ),
-                            Text(widget.todoItemDTO.isDone
-                                ? "Done"
-                                : "In progress")
+                            Text(todoItemDTO.isDone ? "Done" : "In progress")
                           ],
                         ),
                         // Time
@@ -106,7 +101,7 @@ class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
                         const SizedBox(
                           height: 16,
                         ),
-                        Text(widget.todoItemDTO.description)
+                        Text(todoItemDTO.description)
                       ],
                     ),
                   ),
@@ -126,11 +121,11 @@ class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
           elevation: 2,
         ),
         onPressed: () {
-          Provider.of<TodoListProvider>(ctx, listen: false).handleCheckbox(
-              widget.todoItemDTO.id, !widget.todoItemDTO.isDone);
+          Provider.of<TodoListProvider>(ctx, listen: false)
+              .handleCheckbox(todoItemDTO.id, !todoItemDTO.isDone);
         },
         child: Center(
-          child: Text(widget.todoItemDTO.isDone ? "Undo it" : 'Done it',
+          child: Text(todoItemDTO.isDone ? "Undo it" : 'Done it',
               style: const TextStyle(color: AppColors.white)),
         ),
       ),
@@ -146,7 +141,7 @@ class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
         Row(
           children: [
             const SizedBox(width: 48, child: Text("From")),
-            Text(widget.todoItemDTO.getStartTime())
+            Text(todoItemDTO.getStartTime())
           ],
         ),
 
@@ -157,7 +152,7 @@ class _DetailedTodoScreenState extends State<DetailedTodoScreen> {
         Row(
           children: [
             const SizedBox(width: 48, child: Text("To")),
-            Text(widget.todoItemDTO.getEndTime())
+            Text(todoItemDTO.getEndTime())
           ],
         ),
       ],

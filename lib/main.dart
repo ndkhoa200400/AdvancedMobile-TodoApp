@@ -9,32 +9,6 @@ import 'package:todo_app/screens/home.dart';
 import 'package:todo_app/service/navigation_service.dart';
 import 'package:todo_app/service/service_locator.dart';
 
-import 'models/todo_item_dto.dart';
-
-List<TodoItemDTO> todoList = [
-  TodoItemDTO(
-      id: "1",
-      title: "House Cleaning",
-      description: "Quét dọn nhà",
-      startTime: DateTime(2022),
-      endTime: DateTime(2022),
-      isDone: false),
-  TodoItemDTO(
-      id: "2",
-      title: "House Cleaning",
-      description: "Quét dọn nhà",
-      startTime: DateTime(2022),
-      endTime: DateTime(2022),
-      isDone: false),
-  TodoItemDTO(
-      id: "3",
-      title: "House Cleaning",
-      description: "Quét dọn nhà",
-      startTime: DateTime(2022),
-      endTime: DateTime(2022),
-      isDone: true),
-];
-
 void main() {
   setupServiceLocator();
   runApp(

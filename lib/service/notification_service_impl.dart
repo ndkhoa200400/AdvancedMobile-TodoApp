@@ -95,12 +95,16 @@ class NotificationServiceImpl extends NotificationService {
                   difference.inDays == 0)
                 {showNotification(todoItemDTO, notificationMessage)}
             });
+    DateTime timeToNotify = now.add(notificationTime).isAfter(deadlineDate)
+        ? now
+        : deadlineDate.subtract(notificationTime);
+    print(timeToNotify);
     await flutterLocalNotificationsPlugin.zonedSchedule(
         todoItemDTO.hashCode,
         applicationName,
         notificationMessage,
-        tz.TZDateTime.from(todoItemDTO.endTime, tz.getLocation("Asia/Bangkok"))
-            .add(notificationTime),
+        tz.TZDateTime.from(timeToNotify, tz.getLocation("Asia/Bangkok"))
+            .add(const Duration(seconds: 1)),
         NotificationDetails(
             android: AndroidNotificationDetails(channelId, applicationName,
                 importance: Importance.max,
@@ -110,10 +114,6 @@ class NotificationServiceImpl extends NotificationService {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
-  }
-
-  void cancelAllNotifications() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
   }
 
   Future<bool> _wasApplicationLaunchedFromNotification() async {
