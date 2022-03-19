@@ -50,8 +50,7 @@ class NotificationServiceImpl extends NotificationService {
   Future selectNotification(String? payload) async {
     TodoItemDTO todoItemDTO = getTodoItemFromPayload(payload ?? '');
     cancelNotificationForTodoItem(todoItemDTO);
-    // getIt<NavigationService>()
-    //     .push(DetailedTodoScreen(todoItemDTO: todoItemDTO));
+
     getIt<NavigationService>().navigateTo("/detailed-todo", todoItemDTO.id);
   }
 
@@ -85,20 +84,11 @@ class NotificationServiceImpl extends NotificationService {
       TodoItemDTO todoItemDTO, String notificationMessage) async {
     DateTime now = DateTime.now();
     DateTime deadlineDate = todoItemDTO.endTime;
-    Duration difference = now.isAfter(deadlineDate)
-        ? now.difference(deadlineDate)
-        : deadlineDate.difference(now);
 
-    _wasApplicationLaunchedFromNotification()
-        .then((bool didApplicationLaunchFromNotification) => {
-              if (!didApplicationLaunchFromNotification &&
-                  difference.inDays == 0)
-                {showNotification(todoItemDTO, notificationMessage)}
-            });
     DateTime timeToNotify = now.add(notificationTime).isAfter(deadlineDate)
         ? now
         : deadlineDate.subtract(notificationTime);
-    print(timeToNotify);
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
         todoItemDTO.hashCode,
         applicationName,
@@ -114,16 +104,5 @@ class NotificationServiceImpl extends NotificationService {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
-  }
-
-  Future<bool> _wasApplicationLaunchedFromNotification() async {
-    NotificationAppLaunchDetails? notificationAppLaunchDetails =
-        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-
-    if (notificationAppLaunchDetails != null) {
-      return notificationAppLaunchDetails.didNotificationLaunchApp;
-    }
-
-    return false;
   }
 }

@@ -17,7 +17,7 @@ class TodoListDTO {
   }
 
   void sort() {
-    _list.sort((a, b) => a.endTime.isAfter(b.endTime) ? 0 : 1);
+    _list.sort((a, b) => a.endTime.isBefore(b.endTime) ? 0 : 1);
     _list.sort((a, b) => a.isDone ? 1 : 0);
   }
 
